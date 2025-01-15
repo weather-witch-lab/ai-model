@@ -1,0 +1,80 @@
+#!/usr/bin/env python
+# (C) Copyright 2024 ECMWF.
+#
+# This software is licensed under the terms of the Apache Licence Version 2.0
+# which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+# In applying this licence, ECMWF does not waive the privileges and immunities
+# granted to it by virtue of its status as an intergovernmental organisation
+# nor does it submit to any jurisdiction.
+
+# https://packaging.python.org/en/latest/guides/writing-pyproject-toml/
+
+[build-system]
+requires = ["setuptools>=60", "setuptools-scm>=8.0"]
+
+[project]
+description = "A package to run AI weather models."
+name = "ai-models"
+
+dynamic = ["version"]
+license = { file = "LICENSE" }
+requires-python = ">=3.9"
+
+authors = [
+    { name = "European Centre for Medium-Range Weather Forecasts (ECMWF)", email = "software.support@ecmwf.int" },
+]
+
+keywords = ["tools", "ai"]
+
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    "Operating System :: OS Independent",
+]
+
+dependencies = [
+    "cdsapi",
+    "earthkit-data>=0.10.3",
+    "earthkit-meteo",
+    "earthkit-regrid",
+    "eccodes>=2.37",
+    "ecmwf-api-client",
+    "ecmwf-opendata",
+    "entrypoints",
+    "gputil",
+    "multiurl",
+    "numpy<2",
+    "pyyaml",
+    "requests",
+    "tqdm",
+]
+
+
+[project.urls]
+Homepage = "https://github.com/ecmwf-lab/ai-models/"
+Repository = "https://github.com/ecmwf-lab/ai-models/"
+Issues = "https://github.com/ecmwf-lab/ai-models/issues"
+
+[project.scripts]
+ai-models = "ai_models.__main__:main"
+
+[tool.setuptools_scm]
+version_file = "src/ai_models/_version.py"
+
+[project.entry-points."ai_models.input"]
+file = "ai_models.inputs.file:FileInput"
+mars = "ai_models.inputs.mars:MarsInput"
+cds = "ai_models.inputs.cds:CdsInput"
+ecmwf-open-data = "ai_models.inputs.opendata:OpenDataInput"
+opendata = "ai_models.inputs.opendata:OpenDataInput"
+
+[project.entry-points."ai_models.output"]
+file = "ai_models.outputs:FileOutput"
+none = "ai_models.outputs:NoneOutput"
